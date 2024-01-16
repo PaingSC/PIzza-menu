@@ -68,52 +68,55 @@ function Header() {
 }
 
 function Menu() {
+  let pizzas = pizzaData;
+  // const pizzas = [];
+  const numPizzas = pizzas.length;
+
   return (
     <main className="menu">
       <h2>Our Meun</h2>
-      <Pizza
-        name="Spinaci pizza"
-        ingredients="Tomato, mozarella, spinach, and ricotta cheese"
-        photoSrc="pizzas/spinaci.jpg"
-        price={10}
-      />
-      <Pizza
-        name="Pizza Funghi"
-        ingredients="Tomato, mozarella, mushrooms, and onion"
-        price={12}
-        photoSrc="pizzas/funghi.jpg"
-      />
+
+      {numPizzas > 0 && (
+        <ul className="pizzas">
+          {pizzas.map((pizza) => (
+            <Pizza pizzaObj={pizza} key={pizza.name} />
+          ))}
+        </ul>
+      )}
     </main>
   );
 }
 
 function Pizza(props) {
   return (
-    <div className="pizza">
-      <img alt={props.name} src={props.photoSrc} />
+    <li className="pizza">
+      <img alt={props.pizzaObj.name} src={props.pizzaObj.photoName} />
       <div>
-        <h3>{props.name}</h3>
-        <p>{props.ingredients}</p>
-        <span>{props.price + 3}</span>
+        <h3>{props.pizzaObj.name}</h3>
+        <p>{props.pizzaObj.ingredients}</p>
+        <span>{props.pizzaObj.price + 3}</span>
       </div>
-    </div>
+    </li>
   );
 }
 
 function Footer() {
-  const time = new Date().toLocaleTimeString();
   const hour = new Date().getHours();
   const openHour = 12;
   const closeHour = 22;
-  if (hour >= openHour && hour <= closeHour)
-    console.log("We're currently open");
-  else console.log("Sorry, we're closed");
-  console.log(hour);
+  const isOpen = hour >= openHour && hour <= closeHour;
 
   // return React.createElement("footer", null, "We're currently open!");
   return (
-    <footer>
-      <footer>{time}.We're currently open.</footer>;
+    <footer className="footer">
+      {isOpen && (
+        <div className="order">
+          <p>
+            We're open until until {closeHour}:00. Come vist us or order online.
+          </p>
+          <button className="btn">Order</button>
+        </div>
+      )}
     </footer>
   );
 }
